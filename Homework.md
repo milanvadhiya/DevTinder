@@ -1,0 +1,8 @@
+-create a repositery,
+- Intiliaze the repositery,
+- node_modules, package.json,package-lock.json,
+- Install Expres..
+- Create a server
+- Listen on port 3000,
+- Write a request handles for '/test','/hello',
+- Install nodemon and update Scripts Inside package.json.
