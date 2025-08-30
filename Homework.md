@@ -16,5 +16,12 @@
 
 - install postman app and make a workspace/collection > test api called....
 - write a logic of handle get, post, patch, delete, put api called and test them on a postman
+- expore routing and use of +,? ,*  in the rotes,
+- use of regex in routes /a/ , /.*fly$/...regex
+- reading a queory params
+- reading dynamic routes 
 
-
+- multiple route handlers...play with code
+- next() function
+- next function and errors along with res.send()
+- app.use("/user",[a,b,c],d,e,f,[g],h)
