@@ -25,3 +25,9 @@
 - next() function
 - next function and errors along with res.send()
 - app.use("/user",[a,b,c],d,e,f,[g],h)
+
+- read about middleware. and why do you nneed it.
+- how express js handled request behinf the scenes...
+- diffrence between app.use vs app.all  
+- write a dumy auth for admin
+- write a dummy auth for user.. and play with it

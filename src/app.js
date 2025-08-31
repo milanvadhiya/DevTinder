@@ -17,8 +17,13 @@ const port = 3000;
 // app.use("/user",(req,res)=>{
 //     res.send("handled by use!!!");
 // });
+app.use("/", (req, res, next) => {
+  console.log("First middleware....!");
+  next();
+});
 
-app.use(
+
+app.get(
   "/user",
   (req, res, next) => {
     // res.send({firstName:"John",lastName:"Doe"});
