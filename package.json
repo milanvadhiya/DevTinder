@@ -6,6 +6,7 @@
   "scripts": {
     "start":"node src/app.js",
      "admin":"nodemon src/admin.js",
+      "error":"nodemon src/error.js",
      "dev":"nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
