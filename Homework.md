@@ -31,3 +31,13 @@
 - diffrence between app.use vs app.all  
 - write a dumy auth for admin
 - write a dummy auth for user.. and play with it
+
+
+- connection databse with mongoes atlas
+ - install mongoose library
+ - connected your application to the database <connnection url> / DevTinder
+ - call db before starting application on a server
+ - create a userschema and model for user
+ - create signup api to add data
+ - push data to databse using postman api wrap inside post api..
+ - always db operation wraped the inside try and catch block
