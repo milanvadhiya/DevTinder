@@ -3,6 +3,7 @@ const { connectDB } = require("./config/database");
 const { User } = require("./models/user");
 
 const app = express();
+app.use(express.json()); 
 const port = 3000;
 
 connectDB()
@@ -19,28 +20,28 @@ connectDB()
   });
 
 app.post("/signup",async(req,res)=>{
-   const userObj={
-    firstName:"Milan",
-    lastName:"Vadhiya",
-    emailId:"vadhiyamilan909@gmail.com",
-    password:"12345",
-    age:23
-   };
+  //  const userObj={
+  //   firstName:"Milan",
+  //   lastName:"Vadhiya",
+  //   emailId:"vadhiyamilan909@gmail.com",
+  //   password:"12345",
+  //   age:23
+  //  };
 
-   const studentObj={
-    firstName:"John",
-    lastName:"Doe",
-    emailId:"abcd123@gmail.com", 
-    password:"12345",
-    age:21,
-    gender:"male"
-    };
+  //  const studentObj={
+  //   firstName:"John",
+  //   lastName:"Doe",
+  //   emailId:"abcd123@gmail.com", 
+  //   password:"12345",
+  //   age:21,
+  //   gender:"male"
+  //   };
 
     try{
-             const user = new User(studentObj);
+             const user = new User(req.body);
            await user.save();
 
-              res.send("User signed up successfully");
+              res.send("User addes successfully !");
     }
 
     catch(err){

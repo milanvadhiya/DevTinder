@@ -41,3 +41,9 @@
  - create signup api to add data
  - push data to databse using postman api wrap inside post api..
  - always db operation wraped the inside try and catch block
+
+ -diffrenece betwen js object and json..
+ - add express.json() middlemen
+ - make a signup api dynamic take data from end user
+ - 
+ 
