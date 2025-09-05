@@ -19,6 +19,51 @@ connectDB()
     console.error("Database connection failed", err);
   });
 
+
+
+  app.patch("/user",async(req,res)=>{
+  const userId = req.body.userId;
+  const data=req.body;
+ try{
+        const user=await User.findByIdAndUpdate({_id:userId},data,{returnDocument:"before"});
+        console.log(user);
+        res.send("User has been updated successfully from Database !!!");
+ }
+ catch(err){
+  res.status(400).send("error message :", err.message);
+ }});
+
+
+
+app.delete("/user",async(req,res)=>{
+    const userId = req.body.userId;
+    try{
+      await User.findByIdAndDelete(userId);
+      res.send("User has been deleted successfully from Database !!!");
+    }
+    catch(err){
+      res.status(400).send("error message :", error.message);
+    }
+    
+});
+
+
+
+
+
+
+  // feed get api : "talke a all user from db"
+  app.get("/feed",async (req, res) => {
+    const users= await User.find({});
+    try{
+      res.send(users);
+    }
+    catch(err){
+      res.status(400).send("error message :", error.message);
+    }
+    
+  });
+
 app.post("/signup",async(req,res)=>{
   //  const userObj={
   //   firstName:"Milan",

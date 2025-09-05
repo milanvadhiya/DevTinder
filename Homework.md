@@ -45,5 +45,12 @@
  -diffrenece betwen js object and json..
  - add express.json() middlemen
  - make a signup api dynamic take data from end user
- - 
+ - findone and find diffrenece 
+ - if a same email id mupletiple , then which document return
+ - create a user where get data by id using findById 
+ - create a delete user api..
+ - update api user 
+ - explore a moongoose documention
+ - what are the option in a model 
+ - Api - update with a email.
  
