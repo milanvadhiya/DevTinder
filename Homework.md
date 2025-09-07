@@ -63,3 +63,8 @@
  - explore validator library
  - used validation for password and email and photoURl...
  -  NEVER EVER TRUST REQ.BODY IT TAKE INFINTE MALICIOUS DATA AND CRASHED OUR APPLICATIOn..
+
+ - valid data in signUp api
+ - install Bcrypt Library
+ - create a passwordhash using bcrypt.hash(password,round)..& save user in databse..
+ - compare password throw error if user valid or valid user 

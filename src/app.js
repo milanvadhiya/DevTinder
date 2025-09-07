@@ -1,11 +1,12 @@
 const express = require("express");
 const { connectDB } = require("./config/database");
 const { User } = require("./models/user");
+const { validSignUpData, validLoginData } = require("./utils/validation");
+const bcrypt = require("bcrypt");
 
 const app = express();
 app.use(express.json());
 const port = 3000;
-
 
 app.post("/signup", async (req, res) => {
   //  const userObj={
@@ -24,16 +25,58 @@ app.post("/signup", async (req, res) => {
   //   age:21,
   //   gender:"male"
   //   };
-  const user = new User(req.body);
 
   try {
+    // first validation the data
+    validSignUpData(req);
+
+    // encrypt the password
+    const { firstName, lastName, emailId,password } = req.body;
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    console.log(passwordHash);
+
+    // create a instance of a model
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: passwordHash,
+    });
     await user.save();
 
     res.send("User added successfully !");
   } catch (error) {
     console.log("error :", error.message);
-    res.status(400).send("error message :  " + error.message);
+    res.status(400).send("ERROR :  " + error.message);
   }
+});
+
+app.post("/login",async(req,res)=>{
+  
+  try{
+         validLoginData(req);
+      const {emailId,password}=req.body;
+
+      const user=await User.findOne({emailId:emailId});
+      if(!user){
+        throw new Error("User is not registered !");
+      }
+      // validate
+
+      const isPasswordValid=await bcrypt.compare(password,user.password);
+      if(isPasswordValid){
+            res.send(" Login successfully !!");
+      }
+      else{
+        throw new Error("Invalid Credentials !!");
+      }
+      
+    }
+  catch(error){
+res.status(400).send("ERROR :  " + error.message);
+} 
+ 
 });
 
 // feed get api : "talke a all user from db"
@@ -46,7 +89,6 @@ app.get("/feed", async (req, res) => {
   }
 });
 
-
 app.delete("/user", async (req, res) => {
   const userId = req.body.userId;
   try {
@@ -57,43 +99,39 @@ app.delete("/user", async (req, res) => {
   }
 });
 
-
-
-
-
 app.patch("/user/:userId", async (req, res) => {
   const userId = req.params.userId;
   const data = req.body;
   try {
+    const Allowed_UPADATE = [
+      "password",
+      "about",
+      "photoUrl",
+      "skills",
+      "age",
+      "gender",
+    ];
+    const isAllowed = Object.keys(data).every((key) => {
+      return Allowed_UPADATE.includes(key);
+    });
+    if (!isAllowed) {
+      throw new Error("Error : Invalid updates !");
+    }
 
-     const Allowed_UPADATE=["password","about","photoUrl","skills","age","gender"];
-     const isAllowed=Object.keys(data).every((key)=>{
-        return Allowed_UPADATE.includes(key);
-     });
-     if(!isAllowed){
-        throw new Error("Error : Invalid updates !");
-     }
-
-     if(data?.skills.length>10){
+    if (data?.skills.length > 10) {
       throw new Error("Error : you can add max 10 skills !");
-     }
+    }
 
-    const user = await User.findByIdAndUpdate(
-      { _id: userId },
-      data,
-      {
-        returnDocument: "before",
-        runValidators: true,
-      },
-    );
+    const user = await User.findByIdAndUpdate({ _id: userId }, data, {
+      returnDocument: "before",
+      runValidators: true,
+    });
     console.log(user);
     res.send("User has been updated successfully from Database !!!");
   } catch (err) {
-    res.status(400).send("error message :"+ err.message);
+    res.status(400).send("error message :" + err.message);
   }
 });
-
-
 
 // app.use("/hello/2",(req,res)=>{
 //     res.send("Abraka dabra.. :) :) :)");
@@ -152,9 +190,6 @@ app.patch("/user/:userId", async (req, res) => {
 // app.use("/",(req,res)=>{
 //     res.send("Hello  :) :) :)");
 // });
-
-
-
 
 connectDB()
   .then(() => {
