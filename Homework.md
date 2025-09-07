@@ -54,3 +54,12 @@
  - what are the option in a model 
  - Api - update with a email.
  
+
+
+ - explore schema type option and add require, minlength, mon ,max, maxlenganth, timestamp:true, imporoved the user schema
+ - add timestamp 
+ - api level validation on post request and patch request 
+ - data senitization  add api level validation for each feild
+ - explore validator library
+ - used validation for password and email and photoURl...
+ 

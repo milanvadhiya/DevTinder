@@ -3,68 +3,11 @@ const { connectDB } = require("./config/database");
 const { User } = require("./models/user");
 
 const app = express();
-app.use(express.json()); 
+app.use(express.json());
 const port = 3000;
 
-connectDB()
-  .then(() => {
-    console.log("Database connected successfully");
-   // start the server onece db connection is successful then server responed  incomming requested....
-   // do always server start inside then block of db connection...
-    app.listen(port, () => {
-      console.log(`server is running at port ${port}.....`);
-    });
-  })
-  .catch((err) => {
-    console.error("Database connection failed", err);
-  });
 
-
-
-  app.patch("/user",async(req,res)=>{
-  const userId = req.body.userId;
-  const data=req.body;
- try{
-        const user=await User.findByIdAndUpdate({_id:userId},data,{returnDocument:"before"});
-        console.log(user);
-        res.send("User has been updated successfully from Database !!!");
- }
- catch(err){
-  res.status(400).send("error message :", err.message);
- }});
-
-
-
-app.delete("/user",async(req,res)=>{
-    const userId = req.body.userId;
-    try{
-      await User.findByIdAndDelete(userId);
-      res.send("User has been deleted successfully from Database !!!");
-    }
-    catch(err){
-      res.status(400).send("error message :", error.message);
-    }
-    
-});
-
-
-
-
-
-
-  // feed get api : "talke a all user from db"
-  app.get("/feed",async (req, res) => {
-    const users= await User.find({});
-    try{
-      res.send(users);
-    }
-    catch(err){
-      res.status(400).send("error message :", error.message);
-    }
-    
-  });
-
-app.post("/signup",async(req,res)=>{
+app.post("/signup", async (req, res) => {
   //  const userObj={
   //   firstName:"Milan",
   //   lastName:"Vadhiya",
@@ -76,24 +19,79 @@ app.post("/signup",async(req,res)=>{
   //  const studentObj={
   //   firstName:"John",
   //   lastName:"Doe",
-  //   emailId:"abcd123@gmail.com", 
+  //   emailId:"abcd123@gmail.com",
   //   password:"12345",
   //   age:21,
   //   gender:"male"
   //   };
+  const user = new User(req.body);
 
-    try{
-             const user = new User(req.body);
-           await user.save();
+  try {
+    await user.save();
 
-              res.send("User addes successfully !");
-    }
+    res.send("User added successfully !");
+  } catch (error) {
+    console.log("error :", error.message);
+    res.status(400).send("error message :  " + error.message);
+  }
+});
 
-    catch(err){
-      res.status(400).send("error message :", error.message);
-    }
-   });
+// feed get api : "talke a all user from db"
+app.get("/feed", async (req, res) => {
+  const users = await User.find({});
+  try {
+    res.send(users);
+  } catch (err) {
+    res.status(400).send("error message :", error.message);
+  }
+});
 
+
+app.delete("/user", async (req, res) => {
+  const userId = req.body.userId;
+  try {
+    await User.findByIdAndDelete(userId);
+    res.send("User has been deleted successfully from Database !!!");
+  } catch (err) {
+    res.status(400).send("error message :", error.message);
+  }
+});
+
+
+
+
+
+app.patch("/user/:userId", async (req, res) => {
+  const userId = req.params.userId;
+  const data = req.body;
+  try {
+
+     const Allowed_UPADATE=["password","about","photoUrl","skills","age","gender"];
+     const isAllowed=Object.keys(data).every((key)=>{
+        return Allowed_UPADATE.includes(key);
+     });
+     if(!isAllowed){
+        throw new Error("Error : Invalid updates !");
+     }
+
+     if(data?.skills.length>10){
+      throw new Error("Error : you can add max 10 skills !");
+     }
+
+    const user = await User.findByIdAndUpdate(
+      { _id: userId },
+      data,
+      {
+        returnDocument: "before",
+        runValidators: true,
+      },
+    );
+    console.log(user);
+    res.send("User has been updated successfully from Database !!!");
+  } catch (err) {
+    res.status(400).send("error message :"+ err.message);
+  }
+});
 
 
 
@@ -154,3 +152,19 @@ app.post("/signup",async(req,res)=>{
 // app.use("/",(req,res)=>{
 //     res.send("Hello  :) :) :)");
 // });
+
+
+
+
+connectDB()
+  .then(() => {
+    console.log("Database connected successfully");
+    // start the server onece db connection is successful then server responed  incomming requested....
+    // do always server start inside then block of db connection...
+    app.listen(port, () => {
+      console.log(`server is running at port ${port}.....`);
+    });
+  })
+  .catch((err) => {
+    console.error("Database connection failed", err);
+  });

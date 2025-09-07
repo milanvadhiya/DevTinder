@@ -1,20 +1,70 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const validator = require("validator");
 
 const userSchema = new mongoose.Schema(
-    {
+  {
+    firstName: {
+      type: String,
+      required: true,
+      unique: true,
+      minlength: 3,
+      trim: true,
+    },
+    lastName: {
+      type: String,
+    },
+    emailId: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+      validate(value) {
+        if (!validator.isEmail(value)) {
+          throw new Error("email is not valid !" + value);
+        }
+      },
+      
+
+    },
+    password: { type: String, 
+      required: true,
+      validate(value) {
+        if(!validator.isStrongPassword(value)){
+          throw new Error("Enter a Strong Password !");
+      }
+      
+     },
+      age: { type: Number, min: 18, max: 65 },
+      gender: {
+        type: String,
+        validate(value) {
+          if (!["male", "female", "other"].includes(value.toLowerCase())) {
+            throw new Error("gender data is not valid !");
+          }
+        },
+      },
+
+    photoUrl: {
+        type: String,
+       
+        validate(value) {
+          if (!validator.isURL(value)) {
+            throw new Error("invalid phtoto URl !" + value);
+          }
+        },
+         default:
+          "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725656292.jpg"
         
-            firstName: { type: String },
-            lastName: { type: String },
-            emailId: { type: String },
-            password: { type: String },
-            age: { type: Number },
-            gender: { type: String, },
-                
-        
-    }
+      },
+
+     about: { type: String, default: "this is defaut about for user !" },
+        skills: { type: [String] },
+  },
+},
+  { timestamps: true }
 );
 const User = mongoose.model("User", userSchema);
 
 module.exports = { User };
 
-// module.exports = mongoose.model("User", userSchema); 
+// module.exports = mongoose.model("User", userSchema);
