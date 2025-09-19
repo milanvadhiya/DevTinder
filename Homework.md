@@ -68,3 +68,28 @@
  - install Bcrypt Library
  - create a passwordhash using bcrypt.hash(password,round)..& save user in databse..
  - compare password throw error if user valid or valid user 
+
+ s2E10
+ - install cookies parser 
+ - install jsonweb token
+ - create get / profile api and check if get the cookie back
+ - install jsonwebtoken
+ - in login api , after email and password validalition create  jwt token and send the user in cookies
+ - read the cookies and find the user who is. 
+ - user Auth middlewre
+ - add useauth middleware in profile api and sendConnectionrequest api
+ - set the expirt token and cokkies 
+ - create userschema method getJwt()
+ - create userSchema method validatepassword use bcrpt.comprare(passwordinputbyuse, passwordhas)
+
+  s2E11
+  - Explore tinder api's
+  - create a list of all api's
+  - group the multiple routes of api's
+  - read documentation of express rourer
+  - create rotes folder or managig a auth, profile , request routers
+  - create authRouter, profileRouter, requestRouter
+  - import these router in app.js
+  
+
+ 
