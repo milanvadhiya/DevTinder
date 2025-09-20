@@ -8,9 +8,8 @@ try{
       const{ token}=req.cookies;
 
     const decodedMsg=await jwt.verify(token,"Dev@$908");
-    console.log(decodedMsg);
-     const{_id}=decodedMsg;
-     const user=User.findOne({_id:_id});    
+    
+     const user=await User.findOne({_id:decodedMsg._id});    
         if(!user){
             throw new Error("No user found ! Unauthorized access");
         }

@@ -3,6 +3,66 @@ const validator = require("validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+// const userSchema = new mongoose.Schema(
+//   {
+//     firstName: {
+//       type: String,
+//       required: true,
+//       unique: true,
+//       minlength: 3,
+//       trim: true,
+//     },
+//     lastName: {
+//       type: String,
+//     },
+//     emailId: {
+//       type: String,
+//       required: true,
+//       lowercase: true,
+//       trim: true,
+//       validate(value) {
+//         if (!validator.isEmail(value)) {
+//           throw new Error("email is not valid !" + value);
+//         }
+//       },
+//     },
+//     password: {
+//       type: String,
+//       required: true,
+//       validate(value) {
+//         if (!validator.isStrongPassword(value)) {
+//           throw new Error("Enter a Strong Password !");
+//         }
+//       }
+//     },
+//       age: { type: Number, min: 18, max: 65 },
+//       gender: {
+//         type: String,
+//         validate(value) {
+//           if (!["male", "female", "other"].includes(value.toLowerCase())) {
+//             throw new Error("gender data is not valid !");
+//           }
+//         },
+//       },
+
+//       photoUrl: {
+//         type: String,
+
+//         validate(value) {
+//           if (!validator.isURL(value)) {
+//             throw new Error("invalid phtoto URl !" + value);
+//           }
+//         },
+//         default:
+//           "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725656292.jpg",
+//       },
+
+//       about: { type: String, default: "this is defaut about for user !" },
+//       skills: { type: [String] },
+//     },
+  
+//   { timestamps: true }
+// );
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -22,7 +82,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
       validate(value) {
         if (!validator.isEmail(value)) {
-          throw new Error("email is not valid !" + value);
+          throw new Error("email is not valid! " + value);
         }
       },
     },
@@ -31,34 +91,31 @@ const userSchema = new mongoose.Schema(
       required: true,
       validate(value) {
         if (!validator.isStrongPassword(value)) {
-          throw new Error("Enter a Strong Password !");
+          throw new Error("Enter a strong password!");
         }
       },
-      age: { type: Number, min: 18, max: 65 },
-      gender: {
-        type: String,
-        validate(value) {
-          if (!["male", "female", "other"].includes(value.toLowerCase())) {
-            throw new Error("gender data is not valid !");
-          }
-        },
-      },
-
-      photoUrl: {
-        type: String,
-
-        validate(value) {
-          if (!validator.isURL(value)) {
-            throw new Error("invalid phtoto URl !" + value);
-          }
-        },
-        default:
-          "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725656292.jpg",
-      },
-
-      about: { type: String, default: "this is defaut about for user !" },
-      skills: { type: [String] },
     },
+    age: { type: Number, min: 18, max: 65 },
+    gender: {
+      type: String,
+      validate(value) {
+        if (!["male", "female", "other"].includes(value.toLowerCase())) {
+          throw new Error("gender data is not valid!");
+        }
+      },
+    },
+    photoUrl: {
+      type: String,
+      validate(value) {
+        if (!validator.isURL(value)) {
+          throw new Error("invalid photo URL! " + value);
+        }
+      },
+      default:
+        "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-vector-260nw-1725656292.jpg",
+    },
+    about: { type: String, default: "this is default about for user!" },
+    skills: { type: [String] },
   },
   { timestamps: true }
 );

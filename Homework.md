@@ -90,6 +90,9 @@
   - create rotes folder or managig a auth, profile , request routers
   - create authRouter, profileRouter, requestRouter
   - import these router in app.js
+  - creaate a logout api
+  - create a profile/edit api
+  - create a forgot password api
   
 
  
