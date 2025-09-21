@@ -93,6 +93,19 @@
   - creaate a logout api
   - create a profile/edit api
   - create a forgot password api
+
+  S2E12
+  - create a connection request
+  - send connection request api
+  - proper validation of data
+  - thinK about all corner cases
+  - $or and $and query in mongoose
+  - schema.pre function 
+  - read more about indexes
+  - why do you index in db
+  - what is the advantages and disadavatages of creatind index
+  - what if i creted a lots of index and disadvanatages of it
+  - read about the compound index
   
 
  

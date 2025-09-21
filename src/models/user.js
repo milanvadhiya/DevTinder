@@ -67,8 +67,9 @@ const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
+
       required: true,
-      unique: true,
+      index: true,
       minlength: 3,
       trim: true,
     },
@@ -79,6 +80,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       lowercase: true,
+      unique: true,
       trim: true,
       validate(value) {
         if (!validator.isEmail(value)) {
@@ -119,6 +121,8 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+User.index({ firstName: 1, lastName:1 });
 
 userSchema.methods.getJwtToken = async function () {
   const user = this;
