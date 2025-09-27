@@ -56,4 +56,43 @@ requestRouter.post(
   }
 );
 
+requestRouter.post("/request/review/:status/:requestId",userAuth, async(req,res)=>{
+try{  
+
+       const loggedInUser=req.user; 
+      //validate status  
+      const {status}=req.params;
+      const {requestId}=req.params;
+
+      const isAlloweStatus=["accepted","rejected"];
+      if(!isAlloweStatus.includes(status)){
+        return res.status(400).json({
+          message:"status not Allowed !"
+        });
+      }
+      // request id must be in db , loggedin user and touser are same , status must be intersted !
+
+      const connectionRequest= await ConnectionRequest.findOne({
+        _id:requestId,
+        toUserId:loggedInUser._id,
+        status:"intersted"
+      });
+      
+      if(!connectionRequest){
+        return res.status(400).json({message:"connection not found !"});
+
+      }
+
+      connectionRequest.status=status;
+      const data= await connectionRequest.save();
+      res.json({message:"connection request " +status , data});  
+      //staus must be intersted
+ 
+     
+
+}catch(error){
+  res.status(400).send("Error : "+error.message);
+}
+});
+
 module.exports = requestRouter;

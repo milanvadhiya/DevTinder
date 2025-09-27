@@ -108,4 +108,30 @@
   - read about the compound index
   
 
- 
+ s2E13 
+ - write a api with a proper validation
+  post/request/review/:status/:requestId
+- post/request/review/accepted/:userId,
+- post/request/review/rejected/:userId,
+
+- ref and populate to established connection between those data
+- create get api user/request/received
+- create get api user/connections
+
+s2e14
+- write get/feed api
+- explain the $nin, $ne $and many more
+- pgination  : {
+
+    /feed?page=1& limit=10 =>first 10 users...!     =>.skip(0) & limit(10) 
+    /feed? page=2 &limit 10 =>11 - 20              =>.skip(10) & limit(10) 
+    /feed? page=3 &limit 10 =>21 - 30.....         =>.skip(20) & limit(10) 
+ ................................................................................
+    .skip(0) : skip from the starting and .limit() : 
+
+    .skip(0) & limit(10) => it give first 10 user
+
+    .skip= (page-1)*limit;
+
+}
+

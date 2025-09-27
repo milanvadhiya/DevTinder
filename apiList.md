@@ -16,11 +16,11 @@
 - post/request/send/intersted/:userId
 - post/request/send/ignored/:userId
 
-post/request/review/?/:userId
+post/request/review/:status/:requestId
 - post/request/review/accepted/:userId
 - post/request/review/rejected/:userId
 
 ## userRouter
-- get /user/connections
 - get /user/requests/received
+- get /user/connections
 - get /user/feed  

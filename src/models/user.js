@@ -60,7 +60,7 @@ const bcrypt = require("bcrypt");
 //       about: { type: String, default: "this is defaut about for user !" },
 //       skills: { type: [String] },
 //     },
-  
+
 //   { timestamps: true }
 // );
 const userSchema = new mongoose.Schema(
@@ -122,7 +122,7 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-User.index({ firstName: 1, lastName:1 });
+userSchema.index({ firstName: 1, lastName: 1 });
 
 userSchema.methods.getJwtToken = async function () {
   const user = this;
@@ -147,4 +147,3 @@ userSchema.methods.validatePassword = async function (passwordInputByUser) {
 
 //module.exports = mongoose.model("User", userSchema);
 module.exports = mongoose.model("User", userSchema);
-
