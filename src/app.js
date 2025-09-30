@@ -1,36 +1,36 @@
 const express = require("express");
 const { connectDB } = require("./config/database");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+
 const app = express();
-app.use(express.json());
-app.use(cookieParser());
 const port = 3000;
 
-const authRouter = require("./routes/auth");
-const profileRouter = require("./routes/profile");
-const requestRouter = require("./routes/request");
-const user = require("./models/user");
-const userRouter = require("./routes/user");
+// Middleware
+app.use(express.json());
+app.use(cookieParser());
 
-app.use("/", authRouter);
-app.use("/", profileRouter);
-app.use("/", requestRouter);
-app.use("/",userRouter);
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+// Routers
+app.use("/", require("./routes/auth"));
+app.use("/", require("./routes/profile"));
+app.use("/", require("./routes/request"));
+app.use("/", require("./routes/user"));
 
-// create a express app
-
-
+// Start server after DB connection
 connectDB()
   .then(() => {
     console.log("Database connected successfully");
-    // start the server onece db connection is successful then server responed  incomming requested....
-    // do always server start inside then block of db connection...
-    app.listen(port, () => {
-      console.log(`server is running at port ${port}.....`);
-    });
+    app.listen(port, () => console.log(`Server running on port ${port}...`));
   })
   .catch((err) => {
     console.error("Database connection failed", err);
+    process.exit(1); // exit if DB connection fails
   });
 
 // app.use("/hello/2",(req,res)=>{

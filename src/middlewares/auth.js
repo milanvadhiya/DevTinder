@@ -1,29 +1,40 @@
-const jwt=require("jsonwebtoken");
-const  User  = require("../models/user");
-const { validSignUpData, validLoginData } = require("../utils/validation");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+
+const userAuth = async (req, res, next) => {
+  try {
+    const { token } = req.cookies;
 
 
-const userAuth= async (req,res,next)=>{
-try{  
-      const{ token}=req.cookies;
+    if (!token) {
+     
+      return res.status(401).send("Unauthorized : No token provided");
+    }
 
-    const decodedMsg=await jwt.verify(token,"Dev@$908");
-    
-     const user=await User.findOne({_id:decodedMsg._id});    
-        if(!user){
-            throw new Error("No user found ! Unauthorized access");
-        }
+    let decodedMsg;
+    try {
+      decodedMsg = jwt.verify(token, "Dev@$908");
+     
+    } catch (err) {
       
-        req.user=user;
-          next();
+      return res.status(401).send("Unauthorized : Invalid token");
+    }
+
+    const user = await User.findOne({ _id: decodedMsg._id });
+
+
+    if (!user) {
+     
+      return res.status(401).send("Unauthorized : User not found");
+    }
+
+    req.user = user;
     
-    }
-    catch(error){
-        res.status(401).send("Unauthorized : "+error.message);
-    }
-
-
-
+    next();
+  } catch (error) {
+    console.error("Step 7: middleware error:", error.message);
+    res.status(401).send("Unauthorized : " + error.message);
+  }
 };
-module.exports={userAuth};
 
+module.exports = { userAuth };

@@ -29,7 +29,7 @@ const validateUpdateData = (req) => {
   const allowedEditFildes = [
     "firstName",
     "lastName",
-    "photoURL",
+    "photoUrl",
     "gender",
     "age",
     "about",

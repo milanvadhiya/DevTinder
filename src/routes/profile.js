@@ -5,6 +5,7 @@ const { validateUpdateData } = require("../utils/validation");
 
 profileRouter.get("/profile", userAuth, async (req, res) => {
   try {
+    
     const user = await req.user;
     res.send(user);
   } catch (error) {
@@ -14,6 +15,10 @@ profileRouter.get("/profile", userAuth, async (req, res) => {
 
 profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
   try {
+    //     console.log("req.user:", req.user);         // check user from middleware
+    // console.log("req.body:", req.body);         // check what frontend sent
+    // console.log("validateUpdateData(req):", validateUpdateData(req)); // check validation
+
     if (!validateUpdateData(req)) {
       throw new Error("Invalid edit Request ! ");
     }
@@ -21,13 +26,13 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res) => {
     console.log(loggUser);
     Object.keys(req.body).forEach((key) => {
       loggUser[key] = req.body[key];
-  });
+    });
     await loggUser.save();
     res.json({
-      message:`${loggUser.firstName} your profile updated successfully !`,
-      data:loggUser
+      message: `${loggUser.firstName} your profile updated successfully !`,
+      data: loggUser,
     });
-  console.log("loggguser :", loggUser);
+    console.log("loggguser :", loggUser);
   } catch (error) {
     res.status(401).send("Unauthorized : " + error.message);
   }
