@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 
+
 authRouter.post("/signup", async (req, res) => {
   //  const userObj={
   //   firstName:"Milan",
@@ -39,14 +40,21 @@ authRouter.post("/signup", async (req, res) => {
       emailId,
       password: passwordHash,
     });
-    await user.save();
+    const savedUser = await user.save();
 
-    res.send("User added successfully !");
+    // add a token to the cookies and the response send it to user
+    const token = await savedUser.getJwtToken();
+
+    res.cookie("token", token, {
+      expires:new Date(Date.now()+8*3600000)
+    });
+    res.json({ message: "User added successfully !", data:savedUser });
   } catch (error) {
     console.log("error :", error.message);
     res.status(400).send("ERROR :  " + error.message);
   }
 });
+
 authRouter.post("/login", async (req, res) => {
   try {
     validLoginData(req);
@@ -67,10 +75,7 @@ authRouter.post("/login", async (req, res) => {
       const token = await user.getJwtToken();
 
       res.cookie("token", token, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "lax", // important for cross-origin localhost
-        maxAge: 12 * 60 * 60 * 1000,
+        expires:new Date(Date.now()+8*3600000)
       });
       res.send(user);
     } else {
@@ -93,15 +98,16 @@ authRouter.post("/forgotPassword", async (req, res) => {
   if (!user) return res.status(404).send("User not found");
 
   // Generate token
-  const resetToken = jwt.sign({ id: user._id }, "Dev@$908", { expiresIn: "15m" });
+  const resetToken = jwt.sign({ id: user._id }, "Dev@$908", {
+    expiresIn: "15m",
+  });
 
   // Send token in response instead of a full link
   res.json({
     message: "Reset token generated!",
-    token: resetToken
+    token: resetToken,
   });
 });
-
 
 // --- Reset Password ---
 authRouter.post("/resetPassword/:token", async (req, res) => {

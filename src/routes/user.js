@@ -39,7 +39,7 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
       if (row.fromUserId._id.toString() === loggedin._id.toString()) {
         return row.toUserId;
       }
-      row.fromUserId;
+     return row.fromUserId;
     });
 
     res.json({ data: data });

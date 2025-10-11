@@ -33,7 +33,7 @@ requestRouter.post(
       });
 
       if (exixstingConnectionRequest) {
-        res
+       return res
           .status(400)
           .send({ message: "Connection Request Already Exists !" });
       }

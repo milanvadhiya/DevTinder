@@ -13,7 +13,7 @@ const userAuth = async (req, res, next) => {
 
     let decodedMsg;
     try {
-      decodedMsg = jwt.verify(token, "Dev@$908");
+      decodedMsg = jwt.verify(token,process.env.JWT_TOKEN);
      
     } catch (err) {
       
