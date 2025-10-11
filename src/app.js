@@ -2,7 +2,8 @@ const express = require("express");
 const { connectDB } = require("./config/database");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
-require('dotenv').config();
+
+require("dotenv").config();
 
 const app = express();
 const port = 3000;
@@ -11,6 +12,12 @@ const port = 3000;
 app.use(express.json());
 app.use(cookieParser());
 
+const authRouter = require("./routes/auth");
+const profileRouter = require("./routes/profile");
+const requestRouter = require("./routes/request");
+const userRouter = require("./routes/user");
+const paymentRouter = require("./routes/payment");
+
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -18,10 +25,11 @@ app.use(
   })
 );
 // Routers
-app.use("/", require("./routes/auth"));
-app.use("/", require("./routes/profile"));
-app.use("/", require("./routes/request"));
-app.use("/", require("./routes/user"));
+app.use("/", authRouter);
+app.use("/", profileRouter);
+app.use("/", requestRouter);
+app.use("/", userRouter);
+app.use("/", paymentRouter);
 
 // Start server after DB connection
 connectDB()
