@@ -29,6 +29,10 @@ app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 
+app.get("/", (req, res) => {
+  res.send("Server is running!");
+});
+
 // Start server after DB connection
 connectDB()
   .then(() => {
