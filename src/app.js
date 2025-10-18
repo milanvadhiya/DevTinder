@@ -17,28 +17,9 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173",
-//     credentials: true,
-//   })
-// );
-
-const allowedOrigins = [
-  "http://localhost:5173", // for local dev
-  "https://devtinderweb-jhsd.netlify.app",
-  "https://devtinder-web-4gx9.vercel.app", // your new frontend
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "https://dev-tinder-6b4x.vercel.app",
     credentials: true,
   })
 );
