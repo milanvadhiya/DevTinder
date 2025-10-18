@@ -17,12 +17,18 @@ const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     credentials: true,
+//   })
+// );
+
+app.use(cors({
+  origin: "https://devtinderweb-jhsd.netlify.app",
+  credentials: true
+}));
+
 // Routers
 app.use("/", authRouter);
 app.use("/", profileRouter);
